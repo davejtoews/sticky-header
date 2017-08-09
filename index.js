@@ -17,14 +17,10 @@
       // width: originalRect.width + 'px',
       'z-index': 9999
     }
-    var toggleClass = "";
+    var toggleClass = (options && options.toggleClass) ? options.toggleClass : "";
 
     if(options && options.enforceWidth) {
       styles.width = originalRect.width + 'px';
-    }
-
-    if(options && options.toggleClass) {
-      toggleClass = options.toggleClass;
     }
 
     var originalStyles = {}
@@ -41,12 +37,16 @@
       if (getWindowScroll().top > originalRect.top - requiredTop) {
         for (key in styles) {
           el.style[key] = styles[key];
-          el.classList.add(toggleClass);
+          if (toggleClass) {
+            el.classList.add(toggleClass);
+          }
         }
       } else {
         for (key in originalStyles) {
           el.style[key] = originalStyles[key];
-          el.classList.remove(toggleClass);
+          if (toggleClass) {
+            el.classList.remove(toggleClass);
+          }
         }
       }
       onscroll && onscroll(event)
